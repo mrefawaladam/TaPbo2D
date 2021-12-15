@@ -23,14 +23,25 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="buttonManagePelanggan" min="-2" pref="186" max="-2" attributes="0"/>
-                  <Component id="buttonManageUser1" min="-2" pref="186" max="-2" attributes="0"/>
-                  <Component id="buttonTransaksi1" min="-2" pref="186" max="-2" attributes="0"/>
-                  <Component id="buttonManageSuplier1" alignment="1" min="-2" pref="186" max="-2" attributes="0"/>
-                  <Component id="buttonManageBrand" alignment="1" min="-2" pref="186" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="btnManageUser" min="-2" pref="186" max="-2" attributes="0"/>
+                          <Component id="btnTranskasi" min="-2" pref="186" max="-2" attributes="0"/>
+                          <Component id="btnManageBrand" alignment="1" min="-2" pref="186" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnManageCustomer" alignment="0" min="-2" pref="186" max="-2" attributes="0"/>
+                          <Component id="btnManageSupplier" alignment="0" min="-2" pref="186" max="-2" attributes="0"/>
+                          <Component id="btnManageProduct" alignment="0" min="-2" pref="186" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -40,45 +51,58 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-              <Component id="buttonTransaksi1" min="-2" pref="35" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="buttonManageUser1" min="-2" pref="35" max="-2" attributes="0"/>
+              <Component id="btnTranskasi" min="-2" pref="35" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="buttonManageSuplier1" min="-2" pref="35" max="-2" attributes="0"/>
+              <Component id="btnManageUser" min="-2" pref="35" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="buttonManageBrand" min="-2" pref="35" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="buttonManagePelanggan" min="-2" pref="35" max="-2" attributes="0"/>
-              <EmptySpace pref="37" max="32767" attributes="0"/>
+              <Component id="btnManageSupplier" min="-2" pref="35" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="btnManageBrand" min="-2" pref="35" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="btnManageProduct" min="-2" pref="35" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="btnManageCustomer" min="-2" pref="35" max="-2" attributes="0"/>
+              <EmptySpace pref="16" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="buttonManageBrand">
+    <Component class="javax.swing.JButton" name="btnManageBrand">
       <Properties>
         <Property name="text" type="java.lang.String" value="MANAGE BRAND"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="buttonTransaksi1">
+    <Component class="javax.swing.JButton" name="btnTranskasi">
       <Properties>
-        <Property name="text" type="java.lang.String" value="TRANSAKSI"/>
+        <Property name="text" type="java.lang.String" value="TRANSACTION"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="buttonManageUser1">
+    <Component class="javax.swing.JButton" name="btnManageUser">
       <Properties>
         <Property name="text" type="java.lang.String" value="MANAGE USER"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="buttonManageSuplier1">
+    <Component class="javax.swing.JButton" name="btnManageSupplier">
       <Properties>
-        <Property name="label" type="java.lang.String" value="MANAGE SUPLIER"/>
+        <Property name="text" type="java.lang.String" value="MANAGE SUPPLIER"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="buttonManagePelanggan">
+    <Component class="javax.swing.JButton" name="btnManageProduct">
       <Properties>
-        <Property name="text" type="java.lang.String" value="MANAGE PELANGGAN"/>
+        <Property name="text" type="java.lang.String" value="MANAGE PRODUCT"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnManageProductActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnManageCustomer">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="MANAGE CUSTOMER"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnManageCustomerActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
