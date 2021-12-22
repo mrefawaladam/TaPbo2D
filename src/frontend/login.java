@@ -9,6 +9,12 @@ package frontend;
  *
  * @author refa
  */
+import backend.*;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+
 public class login extends javax.swing.JFrame {
 
     /**
@@ -98,9 +104,9 @@ public class login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLogin2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogin2ActionPerformed
-        Menu menu = new Menu();
-        menu.show();
-        dispose();
+
+          prosesLogin(usernameText.getText(), passwordText.getText());
+          
     }//GEN-LAST:event_btnLogin2ActionPerformed
 
     /**
@@ -138,6 +144,21 @@ public class login extends javax.swing.JFrame {
         });
     }
 
+     public void prosesLogin(String username, String Password){ 
+       Login lgn = new  Login().prosesLogin(username, Password); 
+       if(lgn.getStatus()== 2){
+        JOptionPane.showMessageDialog(null, "berhasil login");
+        Menu menu = new Menu();
+        menu.show();
+        dispose();
+       }else{
+        JOptionPane.showMessageDialog(null, "Username password yang anda masukan salah");
+
+       }
+       
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin2;
     private javax.swing.JLabel jLabel1;
