@@ -90,6 +90,8 @@ public class Transaction extends javax.swing.JFrame {
 
         lblJumlah.setText("Jumlah");
 
+        txtTanggal.setEditable(false);
+
         btnTambahBaru.setText("Tambah Baru");
         btnTambahBaru.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

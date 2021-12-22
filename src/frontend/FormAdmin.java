@@ -9,13 +9,20 @@ package frontend;
  *
  * @author refa
  */
-public class Admin extends javax.swing.JFrame {
+import backend.*;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+public class FormAdmin extends javax.swing.JFrame {
 
     /**
      * Creates new form ManageUser
      */
-    public Admin() {
+    public FormAdmin() {
         initComponents();
+        tampilkanData();
+        kosongkanForm();
     }
 
     /**
@@ -39,7 +46,7 @@ public class Admin extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAdmin = new javax.swing.JTable();
         lblNamaLengkap = new javax.swing.JLabel();
-        txtIdCustomer = new javax.swing.JTextField();
+        txtIdAdmin = new javax.swing.JTextField();
         txtAlamat = new javax.swing.JTextField();
         lblAdmin = new javax.swing.JLabel();
         lblNoHp = new javax.swing.JLabel();
@@ -92,13 +99,13 @@ public class Admin extends javax.swing.JFrame {
 
         tblAdmin.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6"
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
             }
         ));
         tblAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -110,7 +117,7 @@ public class Admin extends javax.swing.JFrame {
 
         lblNamaLengkap.setText("Nama Lengkap");
 
-        txtIdCustomer.setEditable(false);
+        txtIdAdmin.setEditable(false);
 
         lblAdmin.setFont(new java.awt.Font("Open Sans", 1, 36)); // NOI18N
         lblAdmin.setText("Manage Admin");
@@ -165,7 +172,7 @@ public class Admin extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(lblIdCustomer)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                        .addComponent(txtIdCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtIdAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblNamaLengkap)
@@ -186,7 +193,7 @@ public class Admin extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblIdCustomer)
-                    .addComponent(txtIdCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtIdAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNamaLengkap)
@@ -224,26 +231,62 @@ public class Admin extends javax.swing.JFrame {
 
     private void btnTambahBaruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahBaruActionPerformed
         // TODO add your handling code here:
-
+        kosongkanForm();
     }//GEN-LAST:event_btnTambahBaruActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         // TODO add your handling code here:
-
+        DefaultTableModel model = (DefaultTableModel)tblAdmin.getModel();
+        int row = tblAdmin.getSelectedRow();
+        
+        Admin adm = new Admin().getById(Integer.parseInt(model.getValueAt(row, 0).toString()));
+        adm.delete();
+        kosongkanForm();
+        tampilkanData();
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
         // TODO add your handling code here:
-
+        cari(txtCari.getText());
     }//GEN-LAST:event_btnCariActionPerformed
 
     private void tblAdminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAdminMouseClicked
         // TODO add your handling code here:
-
+        DefaultTableModel model = (DefaultTableModel)tblAdmin.getModel();
+        int row = tblAdmin.getSelectedRow();
+        Admin adm = new Admin();
+        
+        adm = adm.getById(Integer.parseInt(model.getValueAt(row, 0).toString()));
+        
+        txtIdAdmin.setText(String.valueOf(adm.getId_admin()));
+        txtNamaLengkap.setText(adm.getNama_lengkap());
+        txtUsername.setText(adm.getUsername());
+        txtPassword.setText(adm.getPassword());
+        txtNoHp.setText(adm.getNo_hp());
+        txtAlamat.setText(adm.getAlamat());
     }//GEN-LAST:event_tblAdminMouseClicked
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-
+        String nama_lengkap = txtNamaLengkap.getText();
+        String username = txtUsername.getText();
+        String password = txtPassword.getText();
+        String no_hp = txtNoHp.getText();
+        String alamat = txtAlamat.getText();
+        
+        if(!(nama_lengkap.isEmpty()&& username.isEmpty() && password.isEmpty() && no_hp.isEmpty() && alamat.isEmpty())){
+            Admin adm = new Admin();
+            adm.setId_admin(Integer.parseInt(txtIdAdmin.getText()));
+            adm.setNama_lengkap(nama_lengkap);
+            adm.setUsername(username);
+            adm.setPassword(password);
+            adm.setNo_hp(no_hp);
+            adm.setAlamat(alamat);
+            adm.save();
+            
+            tampilkanData();
+        }else{
+            JOptionPane.showMessageDialog(null, "Silahkan isi semua data!");
+        }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     /**
@@ -263,21 +306,23 @@ public class Admin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Admin().setVisible(true);
+                new FormAdmin().setVisible(true);
             }
         });
     }
@@ -300,10 +345,55 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JTable tblAdmin;
     private javax.swing.JTextField txtAlamat;
     private javax.swing.JTextField txtCari;
-    private javax.swing.JTextField txtIdCustomer;
+    private javax.swing.JTextField txtIdAdmin;
     private javax.swing.JTextField txtNamaLengkap;
     private javax.swing.JTextField txtNoHp;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
+    
+    public void kosongkanForm(){
+        txtIdAdmin.setText("0");
+        txtNamaLengkap.setText("");
+        txtUsername.setText("");
+        txtPassword.setText("");
+        txtNoHp.setText("");
+        txtAlamat.setText("");
+    }
+    
+    public void tampilkanData(){
+        String[] kolom = {"id_admin", "nama_lengkap", "username", "no_hp", "alamat"};
+        ArrayList<Admin> list = new Admin().getAll();
+        Object rowData[] = new Object[5];
+        
+        tblAdmin.setModel(new DefaultTableModel(new Object[][] {}, kolom));
+        
+        for(int i = 0; i < list.size(); i++){
+            rowData[0] = list.get(i).getId_admin();
+            rowData[1] = list.get(i).getNama_lengkap();
+            rowData[2] = list.get(i).getUsername();
+            rowData[3] = list.get(i).getNo_hp();
+            rowData[4] = list.get(i).getAlamat();
+            
+            ((DefaultTableModel)tblAdmin.getModel()).addRow(rowData);
+        }
+    }
+    
+    public void cari(String keyword){
+        String[] kolom = {"id_admin", "nama_lengkap", "username", "no_hp", "alamat"};
+        ArrayList<Admin> list = new Admin().search(keyword);
+        Object rowData[] = new Object[5];
+        
+        tblAdmin.setModel(new DefaultTableModel(new Object[][] {}, kolom));
+        
+        for(Admin adm : list){
+            rowData[0] = adm.getId_admin();
+            rowData[1] = adm.getNama_lengkap();
+            rowData[2] = adm.getUsername();
+            rowData[3] = adm.getNo_hp();
+            rowData[4] = adm.getAlamat();
+            
+            ((DefaultTableModel)tblAdmin.getModel()).addRow(rowData);
+        }
+    }
 }

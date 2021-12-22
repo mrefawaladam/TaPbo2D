@@ -8,7 +8,7 @@ public class DBHelper {
     public static void bukaKoneksi(){
         if(koneksi == null){
             try{
-                String url = "jdbc:mysql://localhost:3306/kuliah_ta_pbo";
+                String url = "jdbc:mysql://localhost:3306/db_tokolaptop";
                 String user = "root";
                 String password = "";
                 DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());

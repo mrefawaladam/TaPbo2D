@@ -43,7 +43,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-              <Component id="lblPelanggan" min="-2" max="-2" attributes="0"/>
+              <Component id="lblCustomer" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="135" max="-2" attributes="0"/>
           </Group>
           <Group type="102" attributes="0">
@@ -63,7 +63,7 @@
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="lblIdPelanggan" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblIdCustomer" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                       <Component id="txtIdCustomer" min="-2" pref="207" max="-2" attributes="0"/>
                   </Group>
@@ -94,10 +94,10 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-              <Component id="lblPelanggan" min="-2" max="-2" attributes="0"/>
+              <Component id="lblCustomer" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="34" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblIdPelanggan" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblIdCustomer" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtIdCustomer" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -131,7 +131,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="lblIdPelanggan">
+    <Component class="javax.swing.JLabel" name="lblIdCustomer">
       <Properties>
         <Property name="text" type="java.lang.String" value="ID Customer"/>
       </Properties>
@@ -249,7 +249,7 @@
         <Property name="editable" type="boolean" value="false"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblPelanggan">
+    <Component class="javax.swing.JLabel" name="lblCustomer">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Open Sans" size="36" style="1"/>
