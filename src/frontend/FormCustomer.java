@@ -38,7 +38,7 @@ public class FormCustomer extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
         jTextField1 = new javax.swing.JTextField();
-        lblIdPelanggan = new javax.swing.JLabel();
+        lblIdCustomer = new javax.swing.JLabel();
         lblNamaLengkap = new javax.swing.JLabel();
         txtAlamat = new javax.swing.JTextField();
         lblNoHp = new javax.swing.JLabel();
@@ -51,7 +51,7 @@ public class FormCustomer extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCustomer = new javax.swing.JTable();
         txtIdCustomer = new javax.swing.JTextField();
-        lblPelanggan = new javax.swing.JLabel();
+        lblCustomer = new javax.swing.JLabel();
         txtNamaLengkap = new javax.swing.JTextField();
         txtNoHp = new javax.swing.JTextField();
 
@@ -61,7 +61,7 @@ public class FormCustomer extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        lblIdPelanggan.setText("ID Customer");
+        lblIdCustomer.setText("ID Customer");
 
         lblNamaLengkap.setText("Nama Lengkap");
 
@@ -117,8 +117,8 @@ public class FormCustomer extends javax.swing.JFrame {
 
         txtIdCustomer.setEditable(false);
 
-        lblPelanggan.setFont(new java.awt.Font("Open Sans", 1, 36)); // NOI18N
-        lblPelanggan.setText("Manage Customer");
+        lblCustomer.setFont(new java.awt.Font("Open Sans", 1, 36)); // NOI18N
+        lblCustomer.setText("Manage Customer");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -126,7 +126,7 @@ public class FormCustomer extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblPelanggan)
+                .addComponent(lblCustomer)
                 .addGap(135, 135, 135))
             .addGroup(layout.createSequentialGroup()
                 .addGap(132, 132, 132)
@@ -142,7 +142,7 @@ public class FormCustomer extends javax.swing.JFrame {
                             .addComponent(txtNamaLengkap, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtAlamat, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblIdPelanggan)
+                        .addComponent(lblIdCustomer)
                         .addGap(23, 23, 23)
                         .addComponent(txtIdCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -166,10 +166,10 @@ public class FormCustomer extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(40, 40, 40)
-                .addComponent(lblPelanggan)
+                .addComponent(lblCustomer)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblIdPelanggan)
+                    .addComponent(lblIdCustomer)
                     .addComponent(txtIdCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -303,10 +303,10 @@ public class FormCustomer extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JLabel lblAlamat;
-    private javax.swing.JLabel lblIdPelanggan;
+    private javax.swing.JLabel lblCustomer;
+    private javax.swing.JLabel lblIdCustomer;
     private javax.swing.JLabel lblNamaLengkap;
     private javax.swing.JLabel lblNoHp;
-    private javax.swing.JLabel lblPelanggan;
     private javax.swing.JTable tblCustomer;
     private javax.swing.JTextField txtAlamat;
     private javax.swing.JTextField txtCari;
