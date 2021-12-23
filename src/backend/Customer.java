@@ -51,7 +51,7 @@ public class Customer {
     public Customer(){
     }
     
-    public Customer(String nama_lengkap, String no_p, String alamat)
+    public Customer(String nama_lengkap, String no_hp, String alamat)
     {
         this.nama_lengkap = nama_lengkap ;
         this.alamat = alamat;
@@ -59,115 +59,92 @@ public class Customer {
     }
     
     public static Customer getById(int id){
+        System.err.println(id);
         Customer cs = new Customer();
-        ResultSet rs = DBHelper.selectQuery("SELECT "
-                                        + "     b.idbuku AS idbuku, "
-                                        + "     b.judul AS judul, "
-                                        + "     b.penerbit AS penerbit, "
-                                        + "     b.penulis AS penulis, "
-                                        + "     k.idkategori AS idkategori, "
-                                        + "     k.nama AS nama, "
-                                        + "     k.keterangan AS keterangan "
-                                        + "     FROM buku b "
-                                        + "     LEFT JOIN kategori k ON b.idkategori = k.idkategori "
-                                        + "     WHERE b.idbuku = '" + id + "'");
+        ResultSet rs = DBHelper.selectQuery("SELECT * FROM customer"
+                                        + "id_customer   = '" + id + "'");
+        
         try{
             while(rs.next()){
                 cs = new Customer();
-                cs.setAlamat(rs.getString(rs.alamat));
-                
+                cs.setAlamat(rs.getString(rs.getString("alamat")));
+                cs.setId_customer(rs.getInt("id_customer"));
+                cs.setNama_lengkap(rs.getString("nama_lengkap"));
+                cs.setNo_hp(rs.getString("no_hp"));
             }
         }
         catch (Exception e){
             e.printStackTrace();
         }
         
-        return buku;
+        return cs;
     }
     
     public static ArrayList<Customer> getAll(){
-        ArrayList<Customer> ListBuku = new ArrayList();
+        ArrayList<Customer> ListCustomers = new ArrayList();
         
         ResultSet rs = DBHelper.selectQuery("SELECT  * FROM customer");
+       
         try{
             while(rs.next()){
                 Customer cs= new Customer();
-                buku.setIdbuku(rs.getInt("idbuku"));
-                buku.getKategori().setIdkategori(rs.getInt("idkategori"));
-                buku.getKategori().setNama(rs.getString("nama"));
-                buku.getKategori().setKeterangan(rs.getString("keterangan"));
-                buku.setJudul(rs.getString("judul"));
-                buku.setPenerbit(rs.getString("penerbit"));
-                buku.setPenulis(rs.getString("penulis"));
-                
-                ListBuku.add(buku);
+                cs.setId_customer(rs.getInt("id_customer")); 
+                cs.setNama_lengkap(rs.getString("nama_lengkap"));
+                cs.setNo_hp(rs.getString("no_hp"));
+                cs.setAlamat(rs.getString("alamat"));
+                ListCustomers.add(cs);
             }
         }
         catch (Exception e){
             e.printStackTrace();
         }
-        return ListBuku;
+        return ListCustomers;
     }
     
-    public static ArrayList<Buku> search(String keyword){
-        ArrayList<Buku> ListBuku = new ArrayList();
+    public static ArrayList<Customer> search(String keyword){
+        ArrayList<Customer> ListCustomers = new ArrayList();
         
-        ResultSet rs = DBHelper.selectQuery("SELECT "
-                                        + "     b.idbuku AS idbuku, "
-                                        + "     b.judul AS judul, "
-                                        + "     b.penerbit AS penerbit, "
-                                        + "     b.penulis AS penulis, "
-                                        + "     k.idkategori AS idkategori, "
-                                        + "     k.nama AS nama, "
-                                        + "     k.keterangan AS keterangan "
-                                        + "     FROM buku b "
-                                        + "     LEFT JOIN kategori k ON b.idkategori = k.idkategori "
-                                        + "     WHERE b.judul LIKE '%" + keyword + "%' "
-                                        + "         OR b.penerbit LIKE '%" + keyword + "%' "
-                                        + "         OR b.penulis LIKE '%" + keyword + "%' ");
+        ResultSet rs = DBHelper.selectQuery("SELECT * FROM " 
+                                        + "     WHERE nama_lengkap LIKE '%" + keyword + "%' "
+                                        + "         OR alamat LIKE '%" + keyword + "%' " );
         try{
             while(rs.next()){
-                Buku buku= new Buku();
-                buku.setIdbuku(rs.getInt("idbuku"));
-                buku.getKategori().setIdkategori(rs.getInt("idkategori"));
-                buku.getKategori().setNama(rs.getString("nama"));
-                buku.getKategori().setKeterangan(rs.getString("keterangan"));
-                buku.setJudul(rs.getString("judul"));
-                buku.setPenerbit(rs.getString("penerbit"));
-                buku.setPenulis(rs.getString("penulis"));
+                Customer cs= new Customer();
+                cs.setAlamat(rs.getString(rs.getString("alamat")));
+                cs.setId_customer(rs.getInt("id_customer"));
+                cs.setNama_lengkap(rs.getString("nama_lengkap"));
+                cs.setNo_hp(rs.getString("no_hp"));;
                 
-                ListBuku.add(buku);
+                ListCustomers.add(cs);
             }
         }
         catch (Exception e){
             e.printStackTrace();
         }
-        return ListBuku;
+        return ListCustomers;
     }
     
     public void save(){
-        if(getById(idbuku).getIdbuku() == 0){
-            String SQL = "INSERT INTO buku (judul, idkategori, penulis, penerbit) VALUES("
-                    + "       '" + this.judul + "', "
-                    + "       '" + this.getKategori().getIdkategori() + "', "
-                    + "       '" + this.penulis + "', "
-                    + "       '" + this.penerbit + "' "
+        System.err.println("fjasl");
+        if(getById(id_customer).getId_customer() == 0){
+            String SQL = "INSERT INTO customer (id_customer, nama_lengkap, no_hp, alamat) VALUES("
+                    + "       '" + this.nama_lengkap + "', " 
+                    + "       '" + this.no_hp + "', "
+                    + "       '" + this.alamat + "' "
                     + "       )";
-            this.idbuku = DBHelper.insertQueryGetId(SQL);
+            this.id_customer = DBHelper.insertQueryGetId(SQL);
         }
         else{
             String SQL = "UPDATE buku SET"
-                    + "       judul = '" + this.judul + "', "
-                    + "       idkategori = '" + this.getKategori().getIdkategori() + "', "
-                    + "       penulis = '" + this.penulis + "', "
-                    + "       penerbit = '" + this.penerbit + "' "
-                    + "       WHERE idbuku = '" + this.idbuku + "'";
+                         + "       '" + this.nama_lengkap + "', " 
+                    + "       '" + this.no_hp + "', "
+                    + "       '" + this.alamat +  "'";
             DBHelper.executeQuery(SQL);
         }
     }
     
     public void delete(){
-        String SQL = "DELETE FROM buku WHERE idbuku = '" + this.idbuku + "'";
+        String SQL = "DELETE FROM buku WHERE idbuku = '" + this.id_customer + "'";
         DBHelper.executeQuery(SQL);
     }
 }

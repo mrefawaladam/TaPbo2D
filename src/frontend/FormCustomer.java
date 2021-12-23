@@ -9,13 +9,21 @@ package frontend;
  *
  * @author refa
  */
-public class Customer extends javax.swing.JFrame {
+import backend.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultComboBoxModel;
+
+public class FormCustomer extends javax.swing.JFrame {
 
     /**
-     * Creates new form Pelanggan
+     * Creates new form  
      */
-    public Customer() {
+    public FormCustomer() {
         initComponents();
+        tampilkanData();
     }
 
     /**
@@ -191,11 +199,20 @@ public class Customer extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-    
+       Customer cs = new Customer(); 
+        cs.setId_customer(Integer.parseInt(txtIdCustomer.getText()));
+        cs.setAlamat(txtAlamat.getText());
+        cs.setNama_lengkap(txtNamaLengkap.getText());
+        cs.setNo_hp(txtNoHp.getText()); 
+        cs.save();
+        txtIdCustomer.setText(Integer.toString(cs.getId_customer()));
+        tampilkanData();
+        
+           
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnTambahBaruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahBaruActionPerformed
-        // TODO add your handling code here:
+        kosongkanForm();        // TODO add your handling code here:
       
     }//GEN-LAST:event_btnTambahBaruActionPerformed
 
@@ -231,25 +248,51 @@ public class Customer extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Customer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Customer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Customer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Customer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Customer().setVisible(true);
+                new FormCustomer().setVisible(true);
             }
         });
     }
-
+    
+     public void kosongkanForm(){
+        txtIdCustomer.setText("0");
+        txtNamaLengkap.setText("");
+        txtNoHp.setText("");
+        txtAlamat.setText("");
+    }
+     
+     public void tampilkanData(){
+        String[] kolom = {"ID", "Nama", "Nomor Hp", "Alamat"};
+        ArrayList<Customer> list = new Customer().getAll();
+        Object rowData[] = new Object[4];
+        
+        tblCustomer.setModel(new DefaultTableModel(new Object[][] {}, kolom));
+        
+        for(Customer kat : list){
+            rowData[0] = kat.getId_customer();
+            rowData[1] = kat.getNama_lengkap();
+            rowData[2] = kat.getNo_hp();
+            rowData[3] = kat.getAlamat();
+           
+             
+            ((DefaultTableModel)tblCustomer.getModel()).addRow(rowData);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCari;
     private javax.swing.JButton btnHapus;
