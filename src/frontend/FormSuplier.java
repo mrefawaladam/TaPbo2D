@@ -9,13 +9,21 @@ package frontend;
  *
  * @author refa
  */
-public class Suplier extends javax.swing.JFrame {
+import backend.*;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+
+public class FormSuplier extends javax.swing.JFrame {
 
     /**
-     * Creates new form Suplier
+     * Creates new form FormSuplier
      */
-    public Suplier() {
+    public FormSuplier() {
         initComponents();
+        tampilkanData();
+        kosongkanForm();
     }
 
     /**
@@ -37,11 +45,11 @@ public class Suplier extends javax.swing.JFrame {
         lblIdSupplier = new javax.swing.JLabel();
         txtIdSupplier = new javax.swing.JTextField();
         lblNamaPerusahaan = new javax.swing.JLabel();
-        txtINamaPerusahaan = new javax.swing.JTextField();
+        txtNamaPerusahaan = new javax.swing.JTextField();
         lblAlamatPerusahaan = new javax.swing.JLabel();
         txtAlamatPerusahaan = new javax.swing.JTextField();
         lblContactPerson = new javax.swing.JLabel();
-        txtIContactPerson = new javax.swing.JTextField();
+        txtContactPerson = new javax.swing.JTextField();
         btnSimpan = new javax.swing.JButton();
         btnTambahBaru = new javax.swing.JButton();
         btnHapus = new javax.swing.JButton();
@@ -160,8 +168,8 @@ public class Suplier extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtAlamatPerusahaan)
                     .addComponent(txtIdSupplier)
-                    .addComponent(txtINamaPerusahaan)
-                    .addComponent(txtIContactPerson, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNamaPerusahaan)
+                    .addComponent(txtContactPerson, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(120, 120, 120))
         );
         layout.setVerticalGroup(
@@ -176,14 +184,14 @@ public class Suplier extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNamaPerusahaan)
-                    .addComponent(txtINamaPerusahaan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNamaPerusahaan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtAlamatPerusahaan, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblAlamatPerusahaan))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtIContactPerson, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtContactPerson, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblContactPerson))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -201,27 +209,58 @@ public class Suplier extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-
+        String nama_perusahaan = txtNamaPerusahaan.getText();
+        String alamat_perusahaan = txtAlamatPerusahaan.getText();
+        String contact_person = txtContactPerson.getText();
+        
+        if(!(nama_perusahaan.isEmpty()&& alamat_perusahaan.isEmpty() && contact_person.isEmpty())){
+            Supplier spl = new Supplier();
+            spl.setId_supplier(Integer.parseInt(txtIdSupplier.getText()));
+            spl.setNama_perusahaan(nama_perusahaan);
+            spl.setAlamat_perusahaan(alamat_perusahaan);
+            spl.setContact_person(contact_person);
+            spl.save();
+            
+            tampilkanData();
+        }else{
+            JOptionPane.showMessageDialog(null, "Silahkan isi semua data!");
+        }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnTambahBaruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahBaruActionPerformed
         // TODO add your handling code here:
-
+        kosongkanForm();
     }//GEN-LAST:event_btnTambahBaruActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         // TODO add your handling code here:
-
+        DefaultTableModel model = (DefaultTableModel)tblSupplier.getModel();
+        int row = tblSupplier.getSelectedRow();
+        
+        Supplier spl = new Supplier().getById(Integer.parseInt(model.getValueAt(row, 0).toString()));
+        spl.delete();
+        
+        kosongkanForm();
+        tampilkanData();
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
         // TODO add your handling code here:
-
+        cari(txtCari.getText());
     }//GEN-LAST:event_btnCariActionPerformed
 
     private void tblSupplierMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSupplierMouseClicked
         // TODO add your handling code here:
-
+        DefaultTableModel model = (DefaultTableModel)tblSupplier.getModel();
+        int row = tblSupplier.getSelectedRow();
+        Supplier spl = new Supplier();
+        
+        spl = spl.getById(Integer.parseInt(model.getValueAt(row, 0).toString()));
+        
+        txtIdSupplier.setText(String.valueOf(spl.getId_supplier()));
+        txtNamaPerusahaan.setText(spl.getNama_perusahaan());
+        txtAlamatPerusahaan.setText(spl.getAlamat_perusahaan());
+        txtContactPerson.setText(spl.getContact_person());
     }//GEN-LAST:event_tblSupplierMouseClicked
 
     private void txtAlamatPerusahaanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAlamatPerusahaanActionPerformed
@@ -245,20 +284,21 @@ public class Suplier extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Suplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormSuplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Suplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormSuplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Suplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormSuplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Suplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormSuplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Suplier().setVisible(true);
+                new FormSuplier().setVisible(true);
             }
         });
     }
@@ -281,10 +321,51 @@ public class Suplier extends javax.swing.JFrame {
     private javax.swing.JTextField txtAlamat;
     private javax.swing.JTextField txtAlamatPerusahaan;
     private javax.swing.JTextField txtCari;
-    private javax.swing.JTextField txtIContactPerson;
-    private javax.swing.JTextField txtINamaPerusahaan;
+    private javax.swing.JTextField txtContactPerson;
     private javax.swing.JTextField txtIUsername;
     private javax.swing.JTextField txtIdPelanggan;
     private javax.swing.JTextField txtIdSupplier;
+    private javax.swing.JTextField txtNamaPerusahaan;
     // End of variables declaration//GEN-END:variables
+    
+    public void kosongkanForm(){
+        txtIdSupplier.setText("0");
+        txtNamaPerusahaan.setText("");
+        txtAlamatPerusahaan.setText("");
+        txtContactPerson.setText("");
+    }
+    
+    public void tampilkanData(){
+        String[] kolom = {"id_supplier", "nama_perusahaan", "alamat_perusahaan", "contact_person"};
+        ArrayList<Supplier> list = new Supplier().getAll();
+        Object rowData[] = new Object[4];
+        
+        tblSupplier.setModel(new DefaultTableModel(new Object[][] {}, kolom));
+        
+        for(int i = 0; i < list.size(); i++){
+            rowData[0] = list.get(i).getId_supplier();
+            rowData[1] = list.get(i).getNama_perusahaan();
+            rowData[2] = list.get(i).getAlamat_perusahaan();
+            rowData[3] = list.get(i).getContact_person();
+            
+            ((DefaultTableModel)tblSupplier.getModel()).addRow(rowData);
+        }
+    }
+    
+    public void cari(String keyword){
+        String[] kolom = {"id_supplier", "nama_perusahaan", "alamat_perusahaan", "contact_person"};
+        ArrayList<Supplier> list = new Supplier().search(keyword);
+        Object rowData[] = new Object[4];
+        
+        tblSupplier.setModel(new DefaultTableModel(new Object[][] {}, kolom));
+        
+        for(Supplier spl : list){
+            rowData[0] =  spl.getId_supplier();
+            rowData[1] =  spl.getNama_perusahaan();
+            rowData[2] =  spl.getAlamat_perusahaan();
+            rowData[3] =  spl.getContact_person();
+            
+            ((DefaultTableModel)tblSupplier.getModel()).addRow(rowData);
+        }
+    }
 }

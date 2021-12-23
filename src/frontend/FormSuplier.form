@@ -84,8 +84,8 @@
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="txtAlamatPerusahaan" max="32767" attributes="0"/>
                   <Component id="txtIdSupplier" max="32767" attributes="0"/>
-                  <Component id="txtINamaPerusahaan" max="32767" attributes="0"/>
-                  <Component id="txtIContactPerson" min="-2" pref="224" max="-2" attributes="0"/>
+                  <Component id="txtNamaPerusahaan" max="32767" attributes="0"/>
+                  <Component id="txtContactPerson" min="-2" pref="224" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="120" max="-2" attributes="0"/>
           </Group>
@@ -104,7 +104,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblNamaPerusahaan" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtINamaPerusahaan" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                  <Component id="txtNamaPerusahaan" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -113,7 +113,7 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtIContactPerson" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                  <Component id="txtContactPerson" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                   <Component id="lblContactPerson" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="49" max="32767" attributes="0"/>
@@ -156,7 +156,7 @@
         <Property name="text" type="java.lang.String" value="Nama Perusahaan"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtINamaPerusahaan">
+    <Component class="javax.swing.JTextField" name="txtNamaPerusahaan">
     </Component>
     <Component class="javax.swing.JLabel" name="lblAlamatPerusahaan">
       <Properties>
@@ -173,7 +173,7 @@
         <Property name="text" type="java.lang.String" value="Contact Person"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtIContactPerson">
+    <Component class="javax.swing.JTextField" name="txtContactPerson">
     </Component>
     <Component class="javax.swing.JButton" name="btnSimpan">
       <Properties>

@@ -9,13 +9,21 @@ package frontend;
  *
  * @author Berryl Radian
  */
-public class Brand extends javax.swing.JFrame {
+import backend.*;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+
+public class FormBrand extends javax.swing.JFrame {
 
     /**
      * Creates new form Brand
      */
-    public Brand() {
+    public FormBrand() {
         initComponents();
+        tampilkanData();
+        kosongkanForm();
     }
 
     /**
@@ -34,7 +42,7 @@ public class Brand extends javax.swing.JFrame {
         lblNamaBrand = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblBrand = new javax.swing.JTable();
-        txtINamaBrand = new javax.swing.JTextField();
+        txtNamaBrand = new javax.swing.JTextField();
         btnSimpan = new javax.swing.JButton();
         btnTambahBaru = new javax.swing.JButton();
         btnHapus = new javax.swing.JButton();
@@ -131,7 +139,7 @@ public class Brand extends javax.swing.JFrame {
                 .addGap(58, 58, 58)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtIdBrand)
-                    .addComponent(txtINamaBrand, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNamaBrand, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -146,7 +154,7 @@ public class Brand extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNamaBrand)
-                    .addComponent(txtINamaBrand, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNamaBrand, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnTambahBaru)
@@ -164,22 +172,51 @@ public class Brand extends javax.swing.JFrame {
 
     private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
         // TODO add your handling code here:
+        cari(txtCari.getText());
     }//GEN-LAST:event_btnCariActionPerformed
 
     private void tblBrandMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBrandMouseClicked
         // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel)tblBrand.getModel();
+        int row = tblBrand.getSelectedRow();
+        Brand brd = new Brand();
+        
+        brd = brd.getById(Integer.parseInt(model.getValueAt(row, 0).toString()));
+        
+        txtIdBrand.setText(String.valueOf(brd.getId_brand()));
+        txtNamaBrand.setText(brd.getNama_brand());
     }//GEN-LAST:event_tblBrandMouseClicked
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-
+        String nama_brand = txtNamaBrand.getText();
+        
+        if(!(nama_brand.isEmpty())){
+            Brand brd = new Brand();
+            brd.setId_brand(Integer.parseInt(txtIdBrand.getText()));
+            brd.setNama_brand(nama_brand);
+            brd.save();
+            
+            tampilkanData();
+        }else{
+            JOptionPane.showMessageDialog(null, "Silahkan isi semua data!");
+        }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnTambahBaruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahBaruActionPerformed
         // TODO add your handling code here:
+        kosongkanForm();
     }//GEN-LAST:event_btnTambahBaruActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel)tblBrand.getModel();
+        int row = tblBrand.getSelectedRow();
+        
+        Brand brd = new Brand().getById(Integer.parseInt(model.getValueAt(row, 0).toString()));
+        brd.delete();
+        
+        kosongkanForm();
+        tampilkanData();
     }//GEN-LAST:event_btnHapusActionPerformed
 
     /**
@@ -199,20 +236,21 @@ public class Brand extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Brand.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormBrand.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Brand.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormBrand.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Brand.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormBrand.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Brand.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormBrand.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Brand().setVisible(true);
+                new FormBrand().setVisible(true);
             }
         });
     }
@@ -228,7 +266,42 @@ public class Brand extends javax.swing.JFrame {
     private javax.swing.JLabel lblNamaBrand;
     private javax.swing.JTable tblBrand;
     private javax.swing.JTextField txtCari;
-    private javax.swing.JTextField txtINamaBrand;
     private javax.swing.JTextField txtIdBrand;
+    private javax.swing.JTextField txtNamaBrand;
     // End of variables declaration//GEN-END:variables
+    
+    public void kosongkanForm(){
+        txtIdBrand.setText("0");
+        txtNamaBrand.setText("");
+    }
+    
+    public void tampilkanData(){
+        String[] kolom = {"id_brand", "nama_brand"};
+        ArrayList<Brand> list = new Brand().getAll();
+        Object rowData[] = new Object[2];
+        
+        tblBrand.setModel(new DefaultTableModel(new Object[][] {}, kolom));
+        
+        for(int i = 0; i < list.size(); i++){
+            rowData[0] = list.get(i).getId_brand();
+            rowData[1] = list.get(i).getNama_brand();
+            
+            ((DefaultTableModel)tblBrand.getModel()).addRow(rowData);
+        }
+    }
+    
+    public void cari(String keyword){
+        String[] kolom = {"id_brand", "nama_brand"};
+        ArrayList<Brand> list = new Brand().search(keyword);
+        Object rowData[] = new Object[2];
+        
+        tblBrand.setModel(new DefaultTableModel(new Object[][] {}, kolom));
+        
+        for(Brand brd : list){
+            rowData[0] =  brd.getId_brand();
+            rowData[1] =  brd.getNama_brand();
+            
+            ((DefaultTableModel)tblBrand.getModel()).addRow(rowData);
+        }
+    }
 }
