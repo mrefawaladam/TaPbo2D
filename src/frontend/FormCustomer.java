@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 public class FormCustomer extends javax.swing.JFrame {
 
@@ -22,8 +23,9 @@ public class FormCustomer extends javax.swing.JFrame {
      * Creates new form  
      */
     public FormCustomer() {
-        initComponents();
+         initComponents();
         tampilkanData();
+        kosongkanForm();
     }
 
     /**
@@ -167,7 +169,7 @@ public class FormCustomer extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addComponent(lblCustomer)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblIdCustomer)
                     .addComponent(txtIdCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -190,7 +192,7 @@ public class FormCustomer extends javax.swing.JFrame {
                     .addComponent(btnCari)
                     .addComponent(btnSimpan)
                     .addComponent(btnHapus))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(39, 39, 39)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -199,14 +201,22 @@ public class FormCustomer extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-       Customer cs = new Customer(); 
-        cs.setId_customer(Integer.parseInt(txtIdCustomer.getText()));
-        cs.setAlamat(txtAlamat.getText());
-        cs.setNama_lengkap(txtNamaLengkap.getText());
-        cs.setNo_hp(txtNoHp.getText()); 
-        cs.save();
-        txtIdCustomer.setText(Integer.toString(cs.getId_customer()));
-        tampilkanData();
+        String nama_lengkap = txtNamaLengkap.getText();
+        String no_hp = txtNoHp.getText();
+        String alamat = txtAlamat.getText(); 
+        
+        if(!(nama_lengkap.isEmpty()&& alamat.isEmpty() && no_hp.isEmpty() && alamat.isEmpty())){
+            Customer cs = new Customer();
+            cs.setId_customer(Integer.parseInt(txtIdCustomer.getText()));
+            cs.setNama_lengkap(nama_lengkap);
+            cs.setAlamat(alamat);
+            cs.setNo_hp(no_hp); 
+            cs.save();
+            
+            tampilkanData();
+        }else{
+            JOptionPane.showMessageDialog(null, "Silahkan isi semua data!");
+        }
         
            
     }//GEN-LAST:event_btnSimpanActionPerformed
@@ -217,18 +227,28 @@ public class FormCustomer extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTambahBaruActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
-        // TODO add your handling code here:
+         DefaultTableModel model = (DefaultTableModel)tblCustomer.getModel();
+        int row = tblCustomer.getSelectedRow();
         
+        Customer cs = new Customer().getById(Integer.parseInt(model.getValueAt(row, 0).toString()));
+        cs.delete();
+        
+        kosongkanForm();
+        tampilkanData();
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
-        // TODO add your handling code here:
-       
+        cari(txtCari.getText());       
     }//GEN-LAST:event_btnCariActionPerformed
 
     private void tblCustomerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCustomerMouseClicked
-        // TODO add your handling code here:
-       
+        DefaultTableModel model = (DefaultTableModel)tblCustomer.getModel();
+        int row = tblCustomer.getSelectedRow();
+        
+        txtIdCustomer.setText(model.getValueAt(row, 0).toString());
+        txtNamaLengkap.setText(model.getValueAt(row, 1).toString());
+        txtNoHp.setText(model.getValueAt(row, 2).toString());        // TODO add your handling code here:
+        txtAlamat.setText(model.getValueAt(row, 3).toString()); 
     }//GEN-LAST:event_tblCustomerMouseClicked
 
     /**
@@ -290,6 +310,24 @@ public class FormCustomer extends javax.swing.JFrame {
             rowData[3] = kat.getAlamat();
            
              
+            ((DefaultTableModel)tblCustomer.getModel()).addRow(rowData);
+        }
+    }
+     
+     
+       public void cari(String keyword){
+        String[] kolom = {"ID", "Nama", "Nomor Hp", "Alamat"};
+        ArrayList<Customer> list = new Customer().search(keyword);
+        Object rowData[] = new Object[4];
+        
+        tblCustomer.setModel(new DefaultTableModel(new Object[][] {}, kolom));
+        
+        for(Customer kat : list){
+            rowData[0] = kat.getId_customer();
+            rowData[1] = kat.getNama_lengkap();
+            rowData[2] = kat.getNo_hp();
+            rowData[3] = kat.getAlamat();
+           
             ((DefaultTableModel)tblCustomer.getModel()).addRow(rowData);
         }
     }

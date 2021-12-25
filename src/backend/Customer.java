@@ -59,18 +59,17 @@ public class Customer {
     }
     
     public static Customer getById(int id){
-        System.err.println(id);
         Customer cs = new Customer();
-        ResultSet rs = DBHelper.selectQuery("SELECT * FROM customer"
-                                        + "id_customer   = '" + id + "'");
-        
+        ResultSet rs = DBHelper.selectQuery("SELECT * FROM customer "
+                                            + " WHERE id_customer = '" + id + "'");
         try{
             while(rs.next()){
                 cs = new Customer();
-                cs.setAlamat(rs.getString(rs.getString("alamat")));
+//                cs.setAlamat(rs.getString(rs.getString("alamat")));
                 cs.setId_customer(rs.getInt("id_customer"));
                 cs.setNama_lengkap(rs.getString("nama_lengkap"));
                 cs.setNo_hp(rs.getString("no_hp"));
+                cs.setAlamat(rs.getString("alamat"));
             }
         }
         catch (Exception e){
@@ -104,16 +103,16 @@ public class Customer {
     public static ArrayList<Customer> search(String keyword){
         ArrayList<Customer> ListCustomers = new ArrayList();
         
-        ResultSet rs = DBHelper.selectQuery("SELECT * FROM " 
+        ResultSet rs = DBHelper.selectQuery("SELECT * FROM customer" 
                                         + "     WHERE nama_lengkap LIKE '%" + keyword + "%' "
                                         + "         OR alamat LIKE '%" + keyword + "%' " );
         try{
             while(rs.next()){
                 Customer cs= new Customer();
-                cs.setAlamat(rs.getString(rs.getString("alamat")));
                 cs.setId_customer(rs.getInt("id_customer"));
                 cs.setNama_lengkap(rs.getString("nama_lengkap"));
-                cs.setNo_hp(rs.getString("no_hp"));;
+                cs.setNo_hp(rs.getString("no_hp"));
+                cs.setAlamat(rs.getString("alamat"));
                 
                 ListCustomers.add(cs);
             }
@@ -125,26 +124,30 @@ public class Customer {
     }
     
     public void save(){
-        System.err.println("fjasl");
+   
         if(getById(id_customer).getId_customer() == 0){
-            String SQL = "INSERT INTO customer (id_customer, nama_lengkap, no_hp, alamat) VALUES("
+            String SQL = "INSERT INTO customer (nama_lengkap, no_hp, alamat) VALUES("
                     + "       '" + this.nama_lengkap + "', " 
                     + "       '" + this.no_hp + "', "
                     + "       '" + this.alamat + "' "
                     + "       )";
             this.id_customer = DBHelper.insertQueryGetId(SQL);
+           
         }
         else{
-            String SQL = "UPDATE buku SET"
-                         + "       '" + this.nama_lengkap + "', " 
-                    + "       '" + this.no_hp + "', "
-                    + "       '" + this.alamat +  "'";
+            System.out.println("update");
+            String SQL = "UPDATE customer SET "
+                    + "     nama_lengkap = '" + this.nama_lengkap + "', " 
+                    + "     no_hp = '" + this.no_hp + "', "
+                    + "     alamat = '" + this.alamat + "' "
+                    + "     WHERE id_customer = '" + this.id_customer + "'";
             DBHelper.executeQuery(SQL);
+
         }
     }
     
     public void delete(){
-        String SQL = "DELETE FROM buku WHERE idbuku = '" + this.id_customer + "'";
+        String SQL = "DELETE FROM customer WHERE id_customer = '" + this.id_customer + "'";
         DBHelper.executeQuery(SQL);
     }
 }
