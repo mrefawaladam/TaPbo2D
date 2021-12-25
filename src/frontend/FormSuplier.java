@@ -234,14 +234,16 @@ public class FormSuplier extends javax.swing.JFrame {
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel)tblSupplier.getModel();
-        int row = tblSupplier.getSelectedRow();
+        Supplier spl = new Supplier();
+        spl.setId_supplier(Integer.parseInt(txtIdSupplier.getText()));
+        boolean deleteSuccess = spl.delete();
         
-        Supplier spl = new Supplier().getById(Integer.parseInt(model.getValueAt(row, 0).toString()));
-        spl.delete();
-        
-        kosongkanForm();
-        tampilkanData();
+        if(deleteSuccess){
+            kosongkanForm();
+            tampilkanData();
+        }else{
+            JOptionPane.showMessageDialog(null, "Terdapat data Produk pada Supplier tersebut");
+        }
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed

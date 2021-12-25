@@ -149,7 +149,7 @@ public class FormLogin extends javax.swing.JFrame {
        Login lgn = new  Login().prosesLogin(username, Password); 
        if(lgn.getStatus()== 2){
         JOptionPane.showMessageDialog(null, "berhasil login");
-        Menu menu = new Menu();
+        FormMenu menu = new FormMenu();
         menu.show();
         dispose();
        }else{

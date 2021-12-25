@@ -146,8 +146,25 @@ public class Supplier {
         }
     }
     
-    public void delete(){
-        String SQL = "DELETE FROM supplier WHERE id_supplier = '" + this.id_supplier + "'";
-        DBHelper.executeQuery(SQL);
+    public boolean delete(){
+        ResultSet rs = DBHelper.selectQuery("SELECT COUNT(*) as jumlahSupplier FROM product" + " WHERE id_supplier = " 
+                                            + this.id_supplier + "");
+        int jumlahSupplier = 0;
+        
+        try {
+            while(rs.next()){
+                jumlahSupplier = rs.getInt("jumlahSupplier");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        if(jumlahSupplier == 0){
+            String query = "DELETE FROM supplier WHERE id_supplier = " + this.id_supplier;
+            DBHelper.executeQuery(query);
+            return true;
+        }else{
+            return false;
+        }
     }
 }

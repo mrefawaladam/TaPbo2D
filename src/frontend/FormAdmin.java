@@ -236,13 +236,16 @@ public class FormAdmin extends javax.swing.JFrame {
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel)tblAdmin.getModel();
-        int row = tblAdmin.getSelectedRow();
+        Admin adm = new Admin();
+        adm.setId_admin(Integer.parseInt(txtIdAdmin.getText()));
+        boolean deleteSuccess = adm.delete();
         
-        Admin adm = new Admin().getById(Integer.parseInt(model.getValueAt(row, 0).toString()));
-        adm.delete();
-        kosongkanForm();
-        tampilkanData();
+        if(deleteSuccess){
+            kosongkanForm();
+            tampilkanData();
+        }else{
+            JOptionPane.showMessageDialog(null, "Terdapat data Transaksi pada Admin tersebut");
+        }
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed

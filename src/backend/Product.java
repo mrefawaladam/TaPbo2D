@@ -178,7 +178,7 @@ public class Product {
                                         + "         OR supplier.nama_perusahaan LIKE '%" + keyword + "%' ");
         try{
             while(rs.next()){
-                 Product product = new Product();
+                Product product = new Product();
                 product.setProductId(rs.getInt("idbuku")); 
                 product.getSuplier().setId_supplier(rs.getInt("id_supplier"));
                 product.getSuplier().setNama_perusahaan(rs.getString("nama_perusahaan"));
@@ -231,9 +231,26 @@ public class Product {
         }
     }
     
-    public void delete(){
-        String SQL = "DELETE FROM product WHERE idbuku = '" + this.productId + "'";
-        DBHelper.executeQuery(SQL);
+    public boolean delete(){
+        ResultSet rs = DBHelper.selectQuery("SELECT COUNT(*) as jumlahProduk FROM transaction" + " WHERE id_product = " 
+                                            + this.productId + "");
+        int jumlahProduk = 0;
+        
+        try {
+            while(rs.next()){
+                jumlahProduk = rs.getInt("jumlahProduk");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        if(jumlahProduk == 0){
+            String query = "DELETE FROM product WHERE id_product = " + this.productId;
+            DBHelper.executeQuery(query);
+            return true;
+        }else{
+            return false;
+        }
     }
      
 }

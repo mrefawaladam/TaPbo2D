@@ -227,14 +227,16 @@ public class FormCustomer extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTambahBaruActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
-         DefaultTableModel model = (DefaultTableModel)tblCustomer.getModel();
-        int row = tblCustomer.getSelectedRow();
+        Customer cs = new Customer();
+        cs.setId_customer(Integer.parseInt(txtIdCustomer.getText()));
+        boolean deleteSuccess = cs.delete();
         
-        Customer cs = new Customer().getById(Integer.parseInt(model.getValueAt(row, 0).toString()));
-        cs.delete();
-        
-        kosongkanForm();
-        tampilkanData();
+        if(deleteSuccess){
+            kosongkanForm();
+            tampilkanData();
+        }else{
+            JOptionPane.showMessageDialog(null, "Terdapat data Transaksi pada Customer tersebut");
+        }
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed

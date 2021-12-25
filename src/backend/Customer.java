@@ -146,8 +146,25 @@ public class Customer {
         }
     }
     
-    public void delete(){
-        String SQL = "DELETE FROM customer WHERE id_customer = '" + this.id_customer + "'";
-        DBHelper.executeQuery(SQL);
+    public boolean delete(){
+        ResultSet rs = DBHelper.selectQuery("SELECT COUNT(*) as jumlahCustomer FROM transaction" + " WHERE id_customer = " 
+                                            + this.id_customer + "");
+        int jumlahCustomer = 0;
+        
+        try {
+            while(rs.next()){
+                jumlahCustomer = rs.getInt("jumlahCustomer");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        if(jumlahCustomer == 0){
+            String query = "DELETE FROM customer WHERE id_customer = " + this.id_customer;
+            DBHelper.executeQuery(query);
+            return true;
+        }else{
+            return false;
+        }
     }
 }

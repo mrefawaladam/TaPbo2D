@@ -209,14 +209,16 @@ public class FormBrand extends javax.swing.JFrame {
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel)tblBrand.getModel();
-        int row = tblBrand.getSelectedRow();
+        Brand brd = new Brand();
+        brd.setId_brand(Integer.parseInt(txtIdBrand.getText()));
+        boolean deleteSuccess = brd.delete();
         
-        Brand brd = new Brand().getById(Integer.parseInt(model.getValueAt(row, 0).toString()));
-        brd.delete();
-        
-        kosongkanForm();
-        tampilkanData();
+        if(deleteSuccess){
+            kosongkanForm();
+            tampilkanData();
+        }else{
+            JOptionPane.showMessageDialog(null, "Terdapat data Produk pada Brand tersebut");
+        }
     }//GEN-LAST:event_btnHapusActionPerformed
 
     /**

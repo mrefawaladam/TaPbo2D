@@ -115,8 +115,25 @@ public class Brand {
         }
     }
     
-    public void delete(){
-        String SQL = "DELETE FROM brand WHERE id_brand = '" + this.id_brand + "'";
-        DBHelper.executeQuery(SQL);
+    public boolean delete(){
+        ResultSet rs = DBHelper.selectQuery("SELECT COUNT(*) as jumlahBrand FROM product" + " WHERE id_brand = " 
+                                            + this.id_brand + "");
+        int jumlahBrand = 0;
+        
+        try {
+            while(rs.next()){
+                jumlahBrand = rs.getInt("jumlahBrand");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        if(jumlahBrand == 0){
+            String query = "DELETE FROM brand WHERE id_brand = " + this.id_brand;
+            DBHelper.executeQuery(query);
+            return true;
+        }else{
+            return false;
+        }
     }
 }

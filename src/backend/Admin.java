@@ -178,8 +178,25 @@ public class Admin {
         }
     }
     
-    public void delete(){
-        String SQL = "DELETE FROM admin WHERE id_admin = '" + this.id_admin + "'";
-        DBHelper.executeQuery(SQL);
+    public boolean delete(){
+        ResultSet rs = DBHelper.selectQuery("SELECT COUNT(*) as jumlahAdmin FROM transaction" + " WHERE id_admin = " 
+                                            + this.id_admin + "");
+        int jumlahAdmin = 0;
+        
+        try {
+            while(rs.next()){
+                jumlahAdmin = rs.getInt("jumlahAdmin");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        if(jumlahAdmin == 0){
+            String query = "DELETE FROM admin WHERE id_admin = " + this.id_admin;
+            DBHelper.executeQuery(query);
+            return true;
+        }else{
+            return false;
+        }
     }
 }
