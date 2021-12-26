@@ -167,4 +167,8 @@ public class Supplier {
             return false;
         }
     }
+    
+    public String toString(){
+        return nama_perusahaan;
+    }
 }

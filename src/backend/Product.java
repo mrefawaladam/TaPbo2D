@@ -101,8 +101,7 @@ public class Product {
         
     }
     
-    public Product(int id_product, Supplier suplier, Brand brand, String versi , int ram , String processor,int storage, int harga, int stok){
-        this.productId = id_product;
+    public Product(Supplier suplier, Brand brand, String versi , int ram , String processor,int storage, int harga, int stok){
         this.suplier = suplier;
         this.brand = brand;
         this.versi = versi;
@@ -113,50 +112,58 @@ public class Product {
         this.stok = stok ;       
     }
     
-      public static Product getById(int id){
-        Product produk = new Product();
-        ResultSet rs = DBHelper.selectQuery("SELECT product.*,supplier.nama_perusahaan,brand.nama_brand  " 
-                                        + "     k.keterangan AS keterangan "
-                                        + "     FROM buku b "
-                                        + "     LEFT JOIN kategori k ON b.idkategori = k.idkategori "
-                                        + "     WHERE b.idbuku = '" + id + "'");
+    public static Product getById(int id){
+        Product pd = new Product();
+        ResultSet rs = DBHelper.selectQuery("SELECT *"
+                                        + "     FROM product p "
+                                        + "     LEFT JOIN supplier s ON s.id_supplier = p.id_supplier "
+                                        + "     LEFT JOIN brand b ON b.id_brand = p.id_brand "
+                                        + "     WHERE p.id_product = '" + id + "'");
         try{
             while(rs.next()){
-                produk = new Product();
-                produk.setProductId(rs.getInt("id_product"));
-                produk.getSuplier().setId_supplier(rs.getInt("id_supplier")); 
+                pd = new Product();
+                pd.setProductId(rs.getInt("id_product"));
+                pd.getSuplier().setId_supplier(rs.getInt("id_supplier"));
+                pd.getSuplier().setNama_perusahaan(rs.getString("nama_perusahaan"));
+                pd.getBrand().setId_brand(rs.getInt("id_brand"));
+                pd.getBrand().setNama_brand(rs.getString("nama_brand"));
+                pd.setVersi(rs.getString("versi"));
+                pd.setStorage(rs.getInt("storage"));
+                pd.setRam(rs.getInt("ram"));
+                pd.setProcessor(rs.getString("processor"));
+                pd.setHarga(rs.getInt("harga"));
+                pd.setStok(rs.getInt("stok"));
             }
         }
         catch (Exception e){
             e.printStackTrace();
         }
-        
-        return produk;
+        return pd;
     }
     
     public static ArrayList<Product> getAll(){
         ArrayList<Product> ListProduct = new ArrayList();
+        ResultSet rs = DBHelper.selectQuery("SELECT *"
+                                        + "     FROM product p "
+                                        + "     LEFT JOIN supplier s ON s.id_supplier = p.id_supplier "
+                                        + "     LEFT JOIN brand b ON b.id_brand = p.id_brand ");
         
-        ResultSet rs = DBHelper.selectQuery("SELECT product.*,supplier.nama_perusahaan,brand.nama_brand " 
-                                        + "     FROM product "
-                                        + "     INNER JOIN brand on brand.id_brand = product.id_brand "
-                                        + "     INNER JOIN supplier on supplier.id_supplier = product.id_supplier");
         try{
             while(rs.next()){
-                Product product = new Product();
-                product.setProductId(rs.getInt("idbuku")); 
-                product.getSuplier().setId_supplier(rs.getInt("id_supplier"));
-                product.getSuplier().setNama_perusahaan(rs.getString("nama_perusahaan"));
-                product.getBrand().setId_brand(rs.getInt("id_brand")); 
-                product.getBrand().setNama_brand(rs.getString("nama_brand"));  
-                product.setVersi(rs.getString("versi"));
-                product.setStorage(rs.getInt("storage"));
-                product.setRam(rs.getInt("ram"));
-                product.setProcessor(rs.getString("processor"));
-                product.setHarga(rs.getInt("harga"));
-                product.setStok(rs.getInt("stok"));
+                Product pd = new Product();
+                pd.setProductId(rs.getInt("id_product"));
+                pd.getSuplier().setId_supplier(rs.getInt("id_supplier"));
+                pd.getSuplier().setNama_perusahaan(rs.getString("nama_perusahaan"));
+                pd.getBrand().setId_brand(rs.getInt("id_brand"));
+                pd.getBrand().setNama_brand(rs.getString("nama_brand"));
+                pd.setVersi(rs.getString("versi"));
+                pd.setStorage(rs.getInt("storage"));
+                pd.setRam(rs.getInt("ram"));
+                pd.setProcessor(rs.getString("processor"));
+                pd.setHarga(rs.getInt("harga"));
+                pd.setStok(rs.getInt("stok"));
                 
-                ListProduct.add(product);
+                ListProduct.add(pd);
             }
         }
         catch (Exception e){
@@ -165,33 +172,40 @@ public class Product {
         return ListProduct;
     }
     
-    public static ArrayList<Product> search(String keyword){
+    public ArrayList<Product> search(String keyword){
         ArrayList<Product> ListProduct = new ArrayList();
         
-        ResultSet rs = DBHelper.selectQuery("SELECT product.*,supplier.nama_perusahaan,brand.nama_brand " 
-                                        + "     FROM product "
-                                        + "     INNER JOIN brand on brand.id_brand = product.id_brand "
-                                        + "     INNER JOIN supplier on supplier.id_supplier = product.id_supplier "
-
-                                        + "     WHERE product.versi LIKE '%" + keyword + "%' "
-                                        + "         OR brand.nama_brand LIKE '%" + keyword + "%' "
-                                        + "         OR supplier.nama_perusahaan LIKE '%" + keyword + "%' ");
+        String sql = "SELECT *"
+                    + "     FROM product p  "
+                    + "     LEFT JOIN supplier s ON s.id_supplier = p.id_supplier "
+                    + "     LEFT JOIN brand b ON b.id_brand = p.id_brand "
+                    + "     WHERE "
+                    + "     versi LIKE '%" + keyword + "%' "
+                    + "     OR storage LIKE '%" + keyword + "%' "
+                    + "     OR nama_brand LIKE '%" + keyword + "%' "
+                    + "     OR nama_perusahaan LIKE '%" + keyword + "%' "
+                    + "     OR ram LIKE '%" + keyword + "%' "
+                    + "     OR processor LIKE '%" + keyword + "%' "
+                    + "     OR harga LIKE '%" + keyword + "%' ";
+        
+        ResultSet rs = DBHelper.selectQuery(sql);
+        
         try{
             while(rs.next()){
-                Product product = new Product();
-                product.setProductId(rs.getInt("idbuku")); 
-                product.getSuplier().setId_supplier(rs.getInt("id_supplier"));
-                product.getSuplier().setNama_perusahaan(rs.getString("nama_perusahaan"));
-                product.getBrand().setId_brand(rs.getInt("id_brand")); 
-                product.getBrand().setNama_brand(rs.getString("nama_brand"));  
-                product.setVersi(rs.getString("versi"));
-                product.setStorage(rs.getInt("storage"));
-                product.setRam(rs.getInt("ram"));
-                product.setProcessor(rs.getString("processor"));
-                product.setHarga(rs.getInt("harga"));
-                product.setStok(rs.getInt("stok"));
+                Product pd = new Product();
+                pd.setProductId(rs.getInt("id_product"));
+                pd.getSuplier().setId_supplier(rs.getInt("id_supplier"));
+                pd.getSuplier().setNama_perusahaan(rs.getString("nama_perusahaan"));
+                pd.getBrand().setId_brand(rs.getInt("id_brand"));
+                pd.getBrand().setNama_brand(rs.getString("nama_brand"));
+                pd.setVersi(rs.getString("versi"));
+                pd.setStorage(rs.getInt("storage"));
+                pd.setRam(rs.getInt("ram"));
+                pd.setProcessor(rs.getString("processor"));
+                pd.setHarga(rs.getInt("harga"));
+                pd.setStok(rs.getInt("stok"));
                 
-                ListProduct.add(product);
+                ListProduct.add(pd);
             }
         }
         catch (Exception e){
@@ -202,30 +216,28 @@ public class Product {
     
     public void save(){
         if(getById(productId).getProductId()== 0){
-            String SQL = "INSERT INTO product (`id_supplier`, `id_brand`, `versi`, `storage`, `ram`, `processor`, `harga`, `stok`) VALUES("
- 
+            String SQL = "INSERT INTO product (id_supplier, id_brand, versi, storage, ram, processor, harga, stok) VALUES("
                     + "       '" + this.getSuplier().getId_supplier()+ "', "
                     + "       '" + this.getBrand().getId_brand()+ "', "
-                    + "       '" + this.versi + "' "
-                    + "       '" + this.storage + "' "
-                    + "       '" + this.ram + "' "
-                    + "       '" + this.processor+ "' "
-                    + "       '" + this.harga + "' "
+                    + "       '" + this.versi+ "', "
+                    + "       '" + this.storage+ "', "
+                    + "       '" + this.ram+ "', "
+                    + "       '" + this.processor+ "', "
+                    + "       '" + this.harga + "', "
                     + "       '" + this.stok + "' "
-                    
                     + "       )";
             this.productId = DBHelper.insertQueryGetId(SQL);
         }
         else{
             String SQL = "UPDATE product SET"
-                    + "       id_brand = '" + this.getBrand().getId_brand() + "', "
                     + "       id_supplier = '" + this.getSuplier().getId_supplier() + "', "
+                    + "       id_brand = '" + this.getBrand().getId_brand()+ "', "
                     + "       versi = '" + this.versi + "', "
-                    + "       storage = '" + this.storage + "' "
-                      + "       ram = '" + this.ram + "' "
-                      + "       processor = '" + this.processor + "' "
-                      + "       harga = '" + this.harga + "' "
-                      + "       stok = '" + this.stok + "' "
+                    + "       storage = '" + this.storage + "', "
+                    + "       ram = '" + this.ram + "', "
+                    + "       processor = '" + this.processor + "', "
+                    + "       harga = '" + this.harga + "', "
+                    + "       stok = '" + this.stok + "' "
                     + "       WHERE id_product = '" + this.productId + "'";
             DBHelper.executeQuery(SQL);
         }
@@ -251,6 +263,10 @@ public class Product {
         }else{
             return false;
         }
+    }
+    
+    public String toString(){
+        return versi;
     }
      
 }

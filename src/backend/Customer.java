@@ -137,7 +137,7 @@ public class Customer {
         else{
             System.out.println("update");
             String SQL = "UPDATE customer SET "
-                    + "     nama_lengkap = '" + this.nama_lengkap + "', " 
+                    + "     nama_lengkap = '" + this.getNama_lengkap() + "', " 
                     + "     no_hp = '" + this.no_hp + "', "
                     + "     alamat = '" + this.alamat + "' "
                     + "     WHERE id_customer = '" + this.id_customer + "'";
@@ -166,5 +166,9 @@ public class Customer {
         }else{
             return false;
         }
+    }
+    
+    public String toString(){
+        return nama_lengkap;
     }
 }

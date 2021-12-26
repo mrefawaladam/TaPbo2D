@@ -136,4 +136,8 @@ public class Brand {
             return false;
         }
     }
+    
+    public String toString(){
+        return nama_brand;
+    }
 }

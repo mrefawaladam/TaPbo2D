@@ -199,4 +199,8 @@ public class Admin {
             return false;
         }
     }
+    
+    public String toString(){
+        return nama_lengkap;
+    }
 }

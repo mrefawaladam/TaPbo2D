@@ -9,6 +9,12 @@ package frontend;
  *
  * @author Berryl Radian
  */
+import backend.*;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+
 public class FormProduct extends javax.swing.JFrame {
 
     /**
@@ -16,6 +22,10 @@ public class FormProduct extends javax.swing.JFrame {
      */
     public FormProduct() {
         initComponents();
+        tampilkanData();
+        kosongkanForm();
+        tampilkanCmbSupplier();
+        tampilkanCmbBrand();
     }
 
     /**
@@ -35,7 +45,7 @@ public class FormProduct extends javax.swing.JFrame {
         txtVersi = new javax.swing.JTextField();
         btnTambahBaru = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblPelanggan = new javax.swing.JTable();
+        tblProduct = new javax.swing.JTable();
         btnHapus = new javax.swing.JButton();
         txtCari = new javax.swing.JTextField();
         lblSupplier = new javax.swing.JLabel();
@@ -76,7 +86,7 @@ public class FormProduct extends javax.swing.JFrame {
             }
         });
 
-        tblPelanggan.setModel(new javax.swing.table.DefaultTableModel(
+        tblProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
@@ -87,12 +97,12 @@ public class FormProduct extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8", "Title 9"
             }
         ));
-        tblPelanggan.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblProduct.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblPelangganMouseClicked(evt);
+                tblProductMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblPelanggan);
+        jScrollPane1.setViewportView(tblProduct);
 
         btnHapus.setText("Hapus");
         btnHapus.addActionListener(new java.awt.event.ActionListener() {
@@ -234,23 +244,73 @@ public class FormProduct extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-
+        String versi = txtVersi.getText();
+        String storage = txtStorage.getText();
+        String ram = txtRam.getText();
+        String processor = txtProcessor.getText();
+        String harga = txtHarga.getText();
+        String stok = txtStok.getText();
+        
+        if(!(versi.isEmpty() && storage.isEmpty() && ram.isEmpty() && processor.isEmpty() && harga.isEmpty() && stok.isEmpty())){
+            Product pd = new Product();
+            pd.setProductId(Integer.parseInt(txtIdProduk.getText()));
+            pd.setSuplier((Supplier)cmbSupplier.getSelectedItem());
+            pd.setBrand((Brand)cmbBrand.getSelectedItem());
+            pd.setVersi(versi);
+            pd.setStorage(Integer.parseInt(storage));
+            pd.setRam(Integer.parseInt(ram));
+            pd.setProcessor(processor);
+            pd.setHarga(Integer.parseInt(harga));
+            pd.setStok(Integer.parseInt(stok));
+            pd.save();
+            
+            tampilkanData();
+        }else{
+            JOptionPane.showMessageDialog(null, "Silahkan isi semua data!");
+        }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnTambahBaruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahBaruActionPerformed
         // TODO add your handling code here:
+        kosongkanForm();
     }//GEN-LAST:event_btnTambahBaruActionPerformed
 
-    private void tblPelangganMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPelangganMouseClicked
+    private void tblProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_tblPelangganMouseClicked
+        DefaultTableModel model = (DefaultTableModel)tblProduct.getModel();
+        int row = tblProduct.getSelectedRow();
+        Product pd = new Product();
+        
+        pd = pd.getById(Integer.parseInt(model.getValueAt(row, 0).toString()));
+        
+        txtIdProduk.setText(String.valueOf(pd.getProductId()));
+        cmbSupplier.getModel().setSelectedItem(pd.getSuplier());
+        cmbBrand.getModel().setSelectedItem(pd.getBrand());
+        txtVersi.setText(pd.getVersi());
+        txtStorage.setText(String.valueOf(pd.getStorage()));
+        txtRam.setText(String.valueOf(pd.getRam()));
+        txtProcessor.setText(pd.getProcessor());
+        txtHarga.setText(String.valueOf(pd.getHarga()));
+        txtStok.setText(String.valueOf(pd.getStok()));
+    }//GEN-LAST:event_tblProductMouseClicked
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         // TODO add your handling code here:
+        Product pd = new Product();
+        pd.setProductId(Integer.parseInt(txtIdProduk.getText()));
+        boolean deleteSuccess = pd.delete();
+        
+        if(deleteSuccess){
+            kosongkanForm();
+            tampilkanData();
+        }else{
+            JOptionPane.showMessageDialog(null, "Terdapat data Transaksi pada Produk tersebut");
+        }
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
         // TODO add your handling code here:
+        cari(txtCari.getText());
     }//GEN-LAST:event_btnCariActionPerformed
 
     /**
@@ -307,7 +367,7 @@ public class FormProduct extends javax.swing.JFrame {
     private javax.swing.JLabel lblSupplier;
     private javax.swing.JLabel lblTransaksi;
     private javax.swing.JLabel lblVersi;
-    private javax.swing.JTable tblPelanggan;
+    private javax.swing.JTable tblProduct;
     private javax.swing.JTextField txtCari;
     private javax.swing.JTextField txtHarga;
     private javax.swing.JTextField txtIdProduk;
@@ -317,4 +377,68 @@ public class FormProduct extends javax.swing.JFrame {
     private javax.swing.JTextField txtStorage;
     private javax.swing.JTextField txtVersi;
     // End of variables declaration//GEN-END:variables
+    
+    public void kosongkanForm(){
+        txtIdProduk.setText("0");
+        cmbSupplier.setSelectedIndex(0);
+        cmbBrand.setSelectedIndex(0);
+        txtVersi.setText("");
+        txtStorage.setText("");
+        txtRam.setText("");
+        txtProcessor.setText("");
+        txtHarga.setText("");
+        txtStok.setText("");
+    }
+    
+    public void tampilkanData(){
+        String[] kolom = {"id_produk", "Supplier", "Brand", "Versi", "Storage", "RAM", "Processor", "Harga", "Stok"};
+        ArrayList<Product> list = new Product().getAll();
+        Object rowData[] = new Object[9];
+        
+        tblProduct.setModel(new DefaultTableModel(new Object[][] {}, kolom));
+        
+        for(int i = 0; i < list.size(); i++){
+            rowData[0] = list.get(i).getProductId();
+            rowData[1] = list.get(i).getSuplier().getNama_perusahaan();
+            rowData[2] = list.get(i).getBrand().getNama_brand();
+            rowData[3] = list.get(i).getVersi();
+            rowData[4] = list.get(i).getStorage();
+            rowData[5] = list.get(i).getRam();
+            rowData[6] = list.get(i).getProcessor();
+            rowData[7] = list.get(i).getHarga();
+            rowData[8] = list.get(i).getStok();
+            
+            ((DefaultTableModel)tblProduct.getModel()).addRow(rowData);
+        }
+    }
+    
+    public void cari(String keyword){
+        String[] kolom = {"id_produk", "Supplier", "Brand", "Versi", "Storage", "RAM", "Processor", "Harga", "Stok"};
+        ArrayList<Product> list = new Product().search(keyword);
+        Object rowData[] = new Object[9];
+        
+        tblProduct.setModel(new DefaultTableModel(new Object[][] {}, kolom));
+        
+        for(Product pd : list){
+            rowData[0] = pd.getProductId();
+            rowData[1] = pd.getSuplier().getNama_perusahaan();
+            rowData[2] = pd.getBrand().getNama_brand();
+            rowData[3] = pd.getVersi();
+            rowData[4] = pd.getStorage();
+            rowData[5] = pd.getRam();
+            rowData[6] = pd.getProcessor();
+            rowData[7] = pd.getHarga();
+            rowData[8] = pd.getStok();
+            
+            ((DefaultTableModel)tblProduct.getModel()).addRow(rowData);
+        }
+    }
+    
+    public void tampilkanCmbBrand(){
+        cmbBrand.setModel(new DefaultComboBoxModel(new Brand().getAll().toArray()));
+    }
+    
+    public void tampilkanCmbSupplier(){
+        cmbSupplier.setModel(new DefaultComboBoxModel(new Supplier().getAll().toArray()));
+    }
 }

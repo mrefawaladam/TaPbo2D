@@ -9,13 +9,25 @@ package frontend;
  *
  * @author Berryl Radian
  */
+
+import backend.*;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+
 public class FormTransaction extends javax.swing.JFrame {
 
     /**
-     * Creates new form Transaksi
+     * Creates new form FormTransaksi
      */
     public FormTransaction() {
         initComponents();
+        tampilkanData();
+        kosongkanForm();
+        tampilkanCmbCustomer();
+        tampilkanCmbProduk();
+        tampilkanCmbAdmin();
     }
 
     /**
@@ -28,7 +40,7 @@ public class FormTransaction extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblPelanggan = new javax.swing.JTable();
+        tblTransaction = new javax.swing.JTable();
         lblAdmin = new javax.swing.JLabel();
         lblProduk = new javax.swing.JLabel();
         txtIdTransaksi = new javax.swing.JTextField();
@@ -45,14 +57,14 @@ public class FormTransaction extends javax.swing.JFrame {
         txtJumlah = new javax.swing.JTextField();
         cmbAdmin = new javax.swing.JComboBox<>();
         cmbProduk = new javax.swing.JComboBox<>();
-        txtJumlah1 = new javax.swing.JTextField();
+        txtTotal = new javax.swing.JTextField();
         lblTotal = new javax.swing.JLabel();
         lblCustomer = new javax.swing.JLabel();
         cmbCustomer = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tblPelanggan.setModel(new javax.swing.table.DefaultTableModel(
+        tblTransaction.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -63,12 +75,12 @@ public class FormTransaction extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7"
             }
         ));
-        tblPelanggan.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblTransaction.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblPelangganMouseClicked(evt);
+                tblTransactionMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblPelanggan);
+        jScrollPane1.setViewportView(tblTransaction);
 
         lblAdmin.setText("Admin");
 
@@ -119,7 +131,7 @@ public class FormTransaction extends javax.swing.JFrame {
 
         cmbProduk.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        txtJumlah1.setEditable(false);
+        txtTotal.setEditable(false);
 
         lblTotal.setText("Total");
 
@@ -152,7 +164,7 @@ public class FormTransaction extends javax.swing.JFrame {
                             .addComponent(cmbProduk, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtJumlah1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(128, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -200,7 +212,7 @@ public class FormTransaction extends javax.swing.JFrame {
                     .addComponent(lblJumlah))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtJumlah1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblTotal))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -217,28 +229,64 @@ public class FormTransaction extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblPelangganMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPelangganMouseClicked
+    private void tblTransactionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTransactionMouseClicked
         // TODO add your handling code here:
-
-    }//GEN-LAST:event_tblPelangganMouseClicked
+        DefaultTableModel model = (DefaultTableModel)tblTransaction.getModel();
+        int row = tblTransaction.getSelectedRow();
+        Transaction ts = new Transaction();
+        
+        ts = ts.getById(Integer.parseInt(model.getValueAt(row, 0).toString()));
+        
+        txtIdTransaksi.setText(String.valueOf(ts.getId_transaction()));
+        cmbAdmin.getModel().setSelectedItem(ts.getAdmin());
+        cmbProduk.getModel().setSelectedItem(ts.getProduct());
+        cmbCustomer.getModel().setSelectedItem(ts.getCustomer());
+        txtTanggal.setText(ts.getTanggal());
+        txtJumlah.setText(String.valueOf(ts.getQty()));
+        txtTotal.setText(String.valueOf(ts.getTotal()));
+    }//GEN-LAST:event_tblTransactionMouseClicked
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-
+       String qty = txtJumlah.getText();
+        
+        if(!(qty.isEmpty())){
+            Transaction ts = new Transaction();
+            ts.setId_transaction(Integer.parseInt(txtIdTransaksi.getText()));
+            ts.setAdmin((Admin)cmbAdmin.getSelectedItem());
+            ts.setProduct((Product)cmbProduk.getSelectedItem());
+            ts.setCustomer((Customer)cmbCustomer.getSelectedItem());
+            ts.setTanggal(txtTanggal.getText());
+            ts.setQty(Integer.parseInt(qty));
+            ts.save();
+            
+            tampilkanData();
+        }else{
+            JOptionPane.showMessageDialog(null, "Silahkan isi semua data!");
+        }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnTambahBaruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahBaruActionPerformed
         // TODO add your handling code here:
-
+        kosongkanForm();
     }//GEN-LAST:event_btnTambahBaruActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         // TODO add your handling code here:
-
+        Transaction ts = new Transaction();
+        ts.setId_transaction(Integer.parseInt(txtIdTransaksi.getText()));
+        boolean deleteSuccess = ts.delete();
+        
+        if(deleteSuccess){
+            kosongkanForm();
+            tampilkanData();
+        }else{
+            JOptionPane.showMessageDialog(null, "Perintah Gagal, ulangi lagi");
+        }
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
         // TODO add your handling code here:
-
+        cari(txtCari.getText());
     }//GEN-LAST:event_btnCariActionPerformed
 
     /**
@@ -296,11 +344,73 @@ public class FormTransaction extends javax.swing.JFrame {
     private javax.swing.JLabel lblTanggal;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JLabel lblTransaksi;
-    private javax.swing.JTable tblPelanggan;
+    private javax.swing.JTable tblTransaction;
     private javax.swing.JTextField txtCari;
     private javax.swing.JTextField txtIdTransaksi;
     private javax.swing.JTextField txtJumlah;
-    private javax.swing.JTextField txtJumlah1;
     private javax.swing.JTextField txtTanggal;
+    private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
+
+    public void kosongkanForm(){
+        txtIdTransaksi.setText("0");
+        cmbAdmin.setSelectedIndex(0);
+        cmbProduk.setSelectedIndex(0);
+        cmbCustomer.setSelectedIndex(0);
+        txtTanggal.setText("");
+        txtJumlah.setText("");
+        txtTotal.setText("");
+    }
+    
+    public void tampilkanData(){
+        String[] kolom = {"id_transaksi", "Admin", "Produk", "Customer", "Tanggal", "Jumlah", "Total"};
+        ArrayList<Transaction> list = new Transaction().getAll();
+        Object rowData[] = new Object[7];
+        
+        tblTransaction.setModel(new DefaultTableModel(new Object[][] {}, kolom));
+        
+        for(int i = 0; i < list.size(); i++){
+            rowData[0] = list.get(i).getId_transaction();
+            rowData[1] = list.get(i).getAdmin().getNama_lengkap();
+            rowData[2] = list.get(i).getProduct().getVersi();
+            rowData[3] = list.get(i).getCustomer().getNama_lengkap();
+            rowData[4] = list.get(i).getTanggal();
+            rowData[5] = list.get(i).getQty();
+            rowData[6] = list.get(i).getTotal();
+            
+            ((DefaultTableModel)tblTransaction.getModel()).addRow(rowData);
+        }
+    }
+    
+    public void cari(String keyword){
+        String[] kolom = {"id_transaksi", "Admin", "Produk", "Customer", "Tanggal", "Jumlah", "Total"};
+        ArrayList<Transaction> list = new Transaction().search(keyword);
+        Object rowData[] = new Object[7];
+        
+        tblTransaction.setModel(new DefaultTableModel(new Object[][] {}, kolom));
+        
+        for(Transaction ts : list){
+            rowData[0] = ts.getId_transaction();
+            rowData[1] = ts.getAdmin().getNama_lengkap();
+            rowData[2] = ts.getProduct().getVersi();
+            rowData[3] = ts.getCustomer().getNama_lengkap();
+            rowData[4] = ts.getTanggal();
+            rowData[5] = ts.getQty();
+            rowData[6] = ts.getTotal();
+            
+            ((DefaultTableModel)tblTransaction.getModel()).addRow(rowData);
+        }
+    }
+    
+    public void tampilkanCmbAdmin(){
+        cmbAdmin.setModel(new DefaultComboBoxModel(new Admin().getAll().toArray()));
+    }
+    
+    public void tampilkanCmbProduk(){
+        cmbProduk.setModel(new DefaultComboBoxModel(new Product().getAll().toArray()));
+    }
+    
+    public void tampilkanCmbCustomer(){
+        cmbCustomer.setModel(new DefaultComboBoxModel(new Customer().getAll().toArray()));
+    }
 }
