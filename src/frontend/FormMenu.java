@@ -37,12 +37,32 @@ public class FormMenu extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnManageBrand.setText("MANAGE BRAND");
+        btnManageBrand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManageBrandActionPerformed(evt);
+            }
+        });
 
         btnTranskasi.setText("TRANSACTION");
+        btnTranskasi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTranskasiActionPerformed(evt);
+            }
+        });
 
         btnManageUser.setText("MANAGE USER");
+        btnManageUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManageUserActionPerformed(evt);
+            }
+        });
 
         btnManageSupplier.setText("MANAGE SUPPLIER");
+        btnManageSupplier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManageSupplierActionPerformed(evt);
+            }
+        });
 
         btnManageProduct.setText("MANAGE PRODUCT");
         btnManageProduct.addActionListener(new java.awt.event.ActionListener() {
@@ -101,12 +121,40 @@ public class FormMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnManageProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageProductActionPerformed
-        // TODO add your handling code here:
+    FormProduct tr = new FormProduct();
+        tr.show();
+        dispose();          // TODO add your handling code here:
     }//GEN-LAST:event_btnManageProductActionPerformed
 
     private void btnManageCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageCustomerActionPerformed
-        // TODO add your handling code here:
+FormCustomer fc = new FormCustomer();
+        fc.show();
+        dispose();          // TODO add your handling code here:
     }//GEN-LAST:event_btnManageCustomerActionPerformed
+
+    private void btnTranskasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTranskasiActionPerformed
+        FormTransaction tr = new FormTransaction();
+        tr.show();
+        dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTranskasiActionPerformed
+
+    private void btnManageUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageUserActionPerformed
+        FormAdmin fc = new FormAdmin();
+        fc.show();
+        dispose();              // TODO add your handling code here:
+    }//GEN-LAST:event_btnManageUserActionPerformed
+
+    private void btnManageSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageSupplierActionPerformed
+        FormSuplier fs = new FormSuplier();
+        fs.show();
+        dispose();  // TODO add your handling code here:
+    }//GEN-LAST:event_btnManageSupplierActionPerformed
+
+    private void btnManageBrandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageBrandActionPerformed
+        FormBrand fs = new FormBrand();
+        fs.show();
+        dispose();   // TODO add your handling code here:
+    }//GEN-LAST:event_btnManageBrandActionPerformed
 
     /**
      * @param args the command line arguments

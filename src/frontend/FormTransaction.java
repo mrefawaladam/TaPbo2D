@@ -252,7 +252,7 @@ public class FormTransaction extends javax.swing.JFrame {
         if(!(qty.isEmpty())){
             Transaction ts = new Transaction();
             ts.setId_transaction(Integer.parseInt(txtIdTransaksi.getText()));
-            ts.setAdmin((Admin)cmbAdmin.getSelectedItem());
+//            ts.setAdmin((Admin)cmbAdmin.getSelectedItem());
             ts.setProduct((Product)cmbProduk.getSelectedItem());
             ts.setCustomer((Customer)cmbCustomer.getSelectedItem());
             ts.setTanggal(txtTanggal.getText());
@@ -363,6 +363,8 @@ public class FormTransaction extends javax.swing.JFrame {
     }
     
     public void tampilkanData(){
+        Admin sd = new Admin();
+        System.out.println(sd.getId_admin());
         String[] kolom = {"id_transaksi", "Admin", "Produk", "Customer", "Tanggal", "Jumlah", "Total"};
         ArrayList<Transaction> list = new Transaction().getAll();
         Object rowData[] = new Object[7];

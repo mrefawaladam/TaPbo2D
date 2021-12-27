@@ -72,21 +72,33 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="MANAGE BRAND"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnManageBrandActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnTranskasi">
       <Properties>
         <Property name="text" type="java.lang.String" value="TRANSACTION"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTranskasiActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnManageUser">
       <Properties>
         <Property name="text" type="java.lang.String" value="MANAGE USER"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnManageUserActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnManageSupplier">
       <Properties>
         <Property name="text" type="java.lang.String" value="MANAGE SUPPLIER"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnManageSupplierActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnManageProduct">
       <Properties>
