@@ -15,6 +15,7 @@ import java.sql.*;
 
 public class Login {
     private String username;
+    private String nama_lengkap;
     private String password;
     private int user_id;
     private int status;
@@ -50,6 +51,15 @@ public class Login {
     public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
+
+    public String getNama_lengkap() {
+        return nama_lengkap;
+    }
+
+    public void setNama_lengkap(String nama_lengkap) {
+        this.nama_lengkap = nama_lengkap;
+    }
+    
     
     public static Login prosesLogin(String u , String p)
     {
@@ -60,8 +70,9 @@ public class Login {
         try{
             while(rs.next()){
                 lgn = new Login();
-                lgn.setUsername(rs.getString("nama_lengkap"));
-                lgn.setPassword(rs.getString("username"));
+                lgn.setUsername(rs.getString("username"));
+                lgn.setNama_lengkap(rs.getString("nama_lengkap"));
+                lgn.setPassword(rs.getString("password"));
                 lgn.setUser_id(rs.getInt("id_admin"));
                 lgn.setStatus(2);
             }
