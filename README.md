@@ -1,4 +1,4 @@
-# TaPbo2D - Toko Laptop
+# Tugas Akhir Pemrograman Berorientasi Objek - Toko Laptop
 
 **Table List**
 1. Table brand => id_brand, nama_brand
